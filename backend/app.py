@@ -3,6 +3,7 @@ from flask_cors import CORS
 import joblib
 import os
 import pandas as pd  # add this import at top
+from huggingface_hub import hf_hub_download
 
 app = Flask(__name__)
 CORS(app)
@@ -19,10 +20,20 @@ RISK_COMMUNITY_CENTROIDS = {
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+def load_model(repo_id, filename):
+    model_path = hf_hub_download(
+        repo_id=repo_id,
+        filename=filename
+    )
+    return joblib.load(model_path)
+
+
+
 
 # Load Poisson model
-poisson_model = joblib.load(
-    os.path.join(BASE_DIR, "models", "poisson_crime_model.pkl")
+poisson_model = load_model(
+    "ramyakaruturi/crime_prediction_models",
+    "poisson_crime_model.pkl"
 )
 
 @app.route("/")
@@ -47,13 +58,17 @@ def poisson_predict():
     return jsonify({
         "expected_crimes": round(float(prediction), 2)
     })
-crime_type_model = joblib.load(
-    os.path.join(BASE_DIR, "models", "crime_type_rf_model.pkl")
+
+crime_type_model = load_model(
+    "ramyakaruturi/crime_prediction_models",
+    "crime_type_rf_model.pkl"
 )
 
-crime_type_encoder = joblib.load(
-    os.path.join(BASE_DIR, "models", "crime_type_label_encoder.pkl")
+crime_type_encoder =load_model(
+    "ramyakaruturi/crime_prediction_models",
+    "crime_type_label_encoder.pkl"
 )
+
 @app.route("/api/crime-type", methods=["POST"])
 def crime_type_predict():
     data = request.json
@@ -84,10 +99,11 @@ def crime_type_predict():
         "predicted_crime_type": pred_label
     })
 
-
-risk_model = joblib.load(
-    os.path.join(BASE_DIR, "models", "crime_risk_rf_model.pkl")
+risk_model = load_model(
+    "ramyakaruturi/crime_prediction_models",
+    "crime_risk_rf_model.pkl"
 )
+
 @app.route("/api/risk", methods=["POST"])
 def risk_level_predict():
     data = request.json
