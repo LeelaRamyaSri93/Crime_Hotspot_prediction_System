@@ -1,6 +1,14 @@
-backend/venv/
 __pycache__/
 *.pyc
 .env
 .DS_Store
-backend/data/*.csv
+
+# Virtual environment
+backend/venv/
+
+# Data & models
+backend/data/
+backend/models/*.pkl
+
+# Notebooks
+.ipynb_checkpoints/
