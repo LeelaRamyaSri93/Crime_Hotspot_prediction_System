@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crime Prediction & Forecasting</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h1>Crime Prediction & Public Safety System</h1>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="hotspots.html">Hotspots</a></li>
+    <li><a href="prediction.html" class="active">Predictions</a></li>
+    <li><a href="risk.html">Risk Assessment</a></li>
+  </ul>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="section">
+  <h2 class="section-title">Crime Prediction & Forecasting</h2>
+  <p class="section-subtitle">
+    Forecast when crime is likely to occur and predict the most probable crime
+    type using machine learning models.
+  </p>
+ 
+
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="section dashboard-grid">
+
+  <!-- INPUT PANEL -->
+  <div class="filter-panel">
+    <h3>Enter Prediction Details</h3>
+
+    <label>Community Area</label>
+    <select id="community_area"> <!-- 🔹 -->
+      <option value="">Select Area</option>
+      <option value="25">Area 25</option>
+      <option value="61">Area 61</option>
+      <option value="71">Area 71</option>
+    </select>
+
+    <label>Date</label>
+    <input type="date" id="date"> <!-- 🔹 -->
+
+    <label>Time</label>
+    <input type="time" id="time"> <!-- 🔹 -->
+
+    <br><br>
+    <button class="button" onclick="predictCrime()">Predict Crime</button> <!-- 🔹 -->
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <div>
+
+    <!-- RESULT CARDS -->
+    <div class="summary-cards">
+
+      <div class="card">
+        <h3>Expected Crime Count</h3>
+        <p><strong id="crime_count">–</strong></p> <!-- 🔹 -->
+        <p>Forecasted using Poisson regression</p>
+      </div>
+
+      <div class="card">
+        <h3>Predicted Crime Type</h3>
+        <p><strong id="crime_type">–</strong></p> <!-- 🔹 -->
+        <p>Random Forest classification</p>
+      </div>
+
+      <div class="card">
+        <h3>Second Likely Crime</h3>
+        <p><strong>—</strong></p>
+        <p>Alternative prediction</p>
+      </div>
+
+      <div class="card">
+        <h3>Third Likely Crime</h3>
+        <p><strong>—</strong></p>
+        <p>Alternative prediction</p>
+      </div>
+
+    </div>
+
+    <!-- TREND VISUALIZATION -->
+    <div style="margin-top: 40px;">
+      <h3>Crime Trend Insights</h3>
+      <div class="map-box" style="height: 250px;">
+        Hourly / Daily Crime Trend Visualization
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODEL INFO -->
+<div class="section">
+  <h2 class="section-title">Models Used for Prediction</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Poisson Regression</h3>
+      <p>
+        Used to forecast the expected number of crimes for a selected
+        location and time interval.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Random Forest Classifier</h3>
+      <p>
+        Predicts the most likely crime type using spatial and temporal features.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="section">
+  <div class="card">
+    <p>
+      <strong>Disclaimer:</strong>
+      Predictions are based on historical data and probabilistic models.
+      They are intended for awareness and planning purposes only.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  All rights are Reserved
+</div>
+
+<!-- ========================= -->
+<!-- JAVASCRIPT (ONLY ADDITION) -->
+<!-- ========================= -->
+<script>
+function predictCrime() {
+
+  const communityArea = document.getElementById("community_area").value;
+  const dateValue = document.getElementById("date").value;
+  const timeValue = document.getElementById("time").value;
+
+  if (!communityArea || !dateValue || !timeValue) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const date = new Date(dateValue);
+  const hour = parseInt(timeValue.split(":")[0]);
+
+  const payload = {
+    community_area: Number(communityArea),
+    hour: hour,
+    day_of_week: date.getDay(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear()
+  };
+
+  // 🔹 PS-2 Poisson API
+  fetch("http://127.0.0.1:5000/api/poisson", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("crime_count").innerText =
+      data.expected_crimes;
+  });
+
+  // 🔹 PS-3 Crime Type API
+  fetch("http://127.0.0.1:5000/api/crime-type", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("crime_type").innerText =
+      data.predicted_crime_type;
+  });
+}
+</script>
+
+</body>
+</html>

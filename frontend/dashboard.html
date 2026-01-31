@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crime Analytics Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h1>Crime Prediction & Public Safety System</h1>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+    <li><a href="hotspots.html">Hotspots</a></li>
+    <li><a href="prediction.html">Predictions</a></li>
+    <li><a href="risk.html">Risk Assessment</a></li>
+  </ul>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="section">
+  <h2 class="section-title">Crime Analytics Dashboard</h2>
+  <p class="section-subtitle">
+    High-level overview of crime analysis capabilities and system intelligence.
+  </p>
+</div>
+<!-- QUICK OVERVIEW CARDS -->
+<div class="section quick-overview">
+  <div class="overview-grid">
+
+    <div class="overview-card">
+      <h4>🗺 Crime Map</h4>
+      <p>Visual representation of crime hotspots across the city using spatial analysis.</p>
+    </div>
+
+    <div class="overview-card">
+      <h4>🛡 Safety Tips</h4>
+      <ul>
+        <li>Avoid poorly lit areas at night</li>
+        <li>Stay alert in high-risk zones</li>
+        <li>Follow local safety advisories</li>
+      </ul>
+    </div>
+
+    <div class="overview-card">
+      <h4>🚨 Emergency Info</h4>
+      <ul>
+        <li>Police: 100</li>
+        <li>Ambulance: 108</li>
+        <li>Women Helpline: 181</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- SYSTEM OVERVIEW -->
+<div class="section">
+  <h2 class="section-title">System Overview</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>📍 Hotspot Detection</h3>
+      <p>
+        Identifies high-risk crime areas using spatial density estimation
+        and clustering techniques.
+      </p>
+      <p><strong>Models:</strong> KDE, K-Means</p>
+      <p><strong>Output:</strong> Risk Zones (1–5)</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Crime Forecasting</h3>
+      <p>
+        Estimates expected number of crimes for a given location and time.
+      </p>
+      <p><strong>Model:</strong> Poisson Regression</p>
+      <p><strong>Output:</strong> Expected Crime Count</p>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Crime Type Prediction</h3>
+      <p>
+        Predicts the most likely crime category based on historical patterns.
+      </p>
+      <p><strong>Model:</strong> Random Forest</p>
+      <p><strong>Output:</strong> Crime Type</p>
+    </div>
+
+    <div class="card">
+      <h3>⚠️ Risk Assessment</h3>
+      <p>
+        Classifies areas into Low, Medium, or High crime risk categories.
+      </p>
+      <p><strong>Model:</strong> Random Forest Classifier</p>
+      <p><strong>Output:</strong> Risk Level</p>
+    </div>
+  </div>
+</div>
+
+<!-- USER FLOW -->
+<div class="section">
+  <h2 class="section-title">How Users Interact With the System</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Step 1</h3>
+      <p>User selects location, date, and time.</p>
+    </div>
+    <div class="card">
+      <h3>Step 2</h3>
+      <p>System analyzes historical crime data.</p>
+    </div>
+    <div class="card">
+      <h3>Step 3</h3>
+      <p>ML models generate predictions.</p>
+    </div>
+    <div class="card">
+      <h3>Step 4</h3>
+      <p>Results displayed via maps and insights.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHY DASHBOARD EXISTS -->
+<div class="section">
+  <div class="card">
+    <h3>Why This Dashboard?</h3>
+    <p>
+      This dashboard acts as a centralized overview explaining the system’s
+      intelligence and guiding users to detailed modules like Hotspots,
+      Predictions, and Risk Assessment.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  All rights are Reserved
+</div>
+
+</body>
+</html>

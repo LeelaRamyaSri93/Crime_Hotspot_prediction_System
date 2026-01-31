@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crime Risk Level Assessment</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h1>Crime Prediction & Public Safety System</h1>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="hotspots.html">Hotspots</a></li>
+    <li><a href="prediction.html">Predictions</a></li>
+    <li><a href="risk.html" class="active">Risk Assessment</a></li>
+  </ul>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="section">
+  <h2 class="section-title">Area Crime Risk Assessment</h2>
+  <p class="section-subtitle">
+    Assess the safety level of a selected area based on historical crime patterns
+    and machine learning analysis.
+  </p>
+</div>
+
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="section dashboard-grid">
+
+  <!-- INPUT PANEL -->
+  <div class="filter-panel">
+    <h3>Select Area Details</h3>
+
+    <label>Community Area</label>
+    <select id="communityArea">
+      <option>Select Area</option>
+      <option>Area 25</option>
+      <option>Area 61</option>
+      <option>Area 71</option>
+    </select>
+
+    <label>District</label>
+    <select id="district">
+      <option>Select District</option>
+      <option>District 10</option>
+      <option>District 12</option>
+      <option>District 18</option>
+    </select>
+
+    <label>Date (optional)</label>
+    <input type="date" id="date">
+
+    <label>Time (optional)</label>
+    <input type="time" id="time">
+
+    <br><br>
+    <button class="button" onclick="checkRisk()">Check Risk Level</button>
+  </div>
+
+  <!-- RISK RESULT -->
+  <div>
+
+    <!-- MAIN RISK CARD -->
+    <div class="card" style="margin-bottom: 30px;">
+      <h3>Area Risk Level</h3>
+      <br>
+      <span class="badge high" id="riskBadge" style="font-size: 18px;">HIGH</span>
+      <p id="riskText" style="margin-top: 15px;">
+        This area has a high historical crime rate. Extra caution is advised,
+        especially during late hours.
+      </p>
+    </div>
+
+    <!-- SUPPORTING INFO -->
+    <div class="summary-cards">
+
+      <div class="card">
+        <h3>Community Area</h3>
+        <p><strong id="summaryArea">25</strong></p>
+      </div>
+
+      <div class="card">
+        <h3>District</h3>
+        <p><strong id="summaryDistrict">10</strong></p>
+      </div>
+
+      <div class="card">
+        <h3>Crime Density</h3>
+        <p><strong id="summaryDensity">High</strong></p>
+      </div>
+
+      <div class="card">
+        <h3>Dominant Crime Type</h3>
+        <p><strong>Theft</strong></p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- SAFETY RECOMMENDATIONS -->
+<div class="section">
+  <h2 class="section-title">Safety Recommendations</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <p>Avoid late-night travel when possible.</p>
+    </div>
+    <div class="card">
+      <p>Use well-lit and populated routes.</p>
+    </div>
+    <div class="card">
+      <p>Stay alert and informed about local crime activity.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODEL EXPLANATION -->
+<div class="section">
+  <h2 class="section-title">How Risk Is Assessed</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <p>
+        Risk levels are derived from historical crime frequency aggregated
+        by community areas.
+      </p>
+    </div>
+    <div class="card">
+      <p>
+        A Random Forest classifier categorizes areas into Low, Medium,
+        and High risk based on spatial and temporal features.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="section">
+  <div class="card">
+    <p>
+      <strong>Disclaimer:</strong>
+      This risk assessment is based on historical crime data and predictive
+      modeling. It is intended for awareness and planning purposes only.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  All rights are Reserved
+</div>
+
+<!-- ========================= -->
+<!-- RISK API INTEGRATION JS -->
+<!-- ========================= -->
+<script>
+function checkRisk() {
+  const areaText = document.getElementById("communityArea").value;
+  const districtText = document.getElementById("district").value;
+  const dateVal = document.getElementById("date").value;
+  const timeVal = document.getElementById("time").value;
+
+  if (!areaText.includes("Area")) {
+    alert("Please select a Community Area");
+    return;
+  }
+
+  const communityArea = parseInt(areaText.replace("Area ", ""));
+  const date = dateVal ? new Date(dateVal) : new Date();
+  const hour = timeVal ? parseInt(timeVal.split(":")[0]) : 12;
+
+  const payload = {
+    community_area: communityArea,
+    hour: hour,
+    day_of_week: date.getDay(),
+    month: date.getMonth() + 1
+  };
+
+  fetch("http://127.0.0.1:5000/api/risk", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    const risk = data.risk_level;
+
+    const badge = document.getElementById("riskBadge");
+    const text = document.getElementById("riskText");
+
+    badge.innerText = risk;
+    badge.classList.remove("low", "medium", "high");
+
+    if (risk === "HIGH") {
+      badge.classList.add("high");
+      text.innerText =
+        "This area has a high historical crime rate. Extra caution is advised, especially during late hours.";
+      document.getElementById("summaryDensity").innerText = "High";
+    } else if (risk === "MEDIUM") {
+      badge.classList.add("medium");
+      text.innerText =
+        "This area has a moderate crime risk. Stay alert and take precautions.";
+      document.getElementById("summaryDensity").innerText = "Medium";
+    } else {
+      badge.classList.add("low");
+      text.innerText =
+        "This area has a relatively low crime risk and is considered safer.";
+      document.getElementById("summaryDensity").innerText = "Low";
+    }
+
+    document.getElementById("summaryArea").innerText = communityArea;
+    document.getElementById("summaryDistrict").innerText =
+      districtText.replace("District ", "");
+  })
+  .catch(err => {
+    console.error("Risk API error:", err);
+    alert("Failed to fetch risk level");
+  });
+}
+</script>
+
+</body>
+</html>
