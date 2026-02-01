@@ -183,8 +183,7 @@ function checkRisk() {
     day_of_week: date.getDay(),
     month: date.getMonth() + 1
   };
-
-  fetch("https://crime-prediction-system-b0oq.onrender.com/api/risk-level",{
+fetch("https://crime-prediction-system-b0oq.onrender.com/api/risk",{
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
