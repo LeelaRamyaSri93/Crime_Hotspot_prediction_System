@@ -77,7 +77,7 @@ This project uses **real-world crime data**, multiple **ML models**, interactive
 ---
 
 ## 📂 Project Structure
-```text
+<pre>
 CRIME/
 │
 ├── backend/
@@ -97,11 +97,10 @@ CRIME/
 │
 ├── .gitignore
 └── README.md
+</pre>
 
 ---
 
-
----
 
 ## 🔌 Backend API Endpoints
 
