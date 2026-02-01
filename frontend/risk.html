@@ -184,7 +184,7 @@ function checkRisk() {
     month: date.getMonth() + 1
   };
 
-  fetch("http://127.0.0.1:5000/api/risk", {
+  fetch("https://crime-prediction-system-b0oq.onrender.com/api/risk-level",{
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
