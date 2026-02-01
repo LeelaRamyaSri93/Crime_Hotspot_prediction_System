@@ -130,7 +130,8 @@
   // KDE HEATMAP (BLUR ZONES)
   // ==============================
  
-fetch("http://127.0.0.1:5000/api/hotspots/kde")
+fetch("https://crime-prediction-system-b0oq.onrender.com/api/hotspots/zones")
+
   .then(res => res.json())
   .then(result => {
     console.log("KDE sample:", result.data[0]);
@@ -163,8 +164,8 @@ function getZoneColor(rank) {
          rank === 2 ? "#32cd32" :
          "#1e90ff";
 }
+fetch("https://crime-prediction-system-b0oq.onrender.com/api/hotspots/zones")
 
-fetch("http://127.0.0.1:5000/api/hotspots/zones")
   .then(res => res.json())
   .then(result => {
     console.log("Zone sample:", result.data[0]);
