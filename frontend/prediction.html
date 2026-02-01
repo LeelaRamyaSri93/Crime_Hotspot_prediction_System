@@ -163,7 +163,7 @@ function predictCrime() {
   };
 
   // 🔹 PS-2 Poisson API
-  fetch("http://127.0.0.1:5000/api/poisson", {
+  fetch("https://crime-prediction-system-b0oq.onrender.com/api/poisson", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -175,7 +175,7 @@ function predictCrime() {
   });
 
   // 🔹 PS-3 Crime Type API
-  fetch("http://127.0.0.1:5000/api/crime-type", {
+  fetch("https://crime-prediction-system-b0oq.onrender.com/api/crime-type", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
