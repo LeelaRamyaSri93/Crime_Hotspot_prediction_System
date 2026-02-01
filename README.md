@@ -77,27 +77,27 @@ This project uses **real-world crime data**, multiple **ML models**, interactive
 ---
 
 ## 📂 Project Structure
-'''
+```text
 CRIME/
 │
 ├── backend/
-│ ├── app.py
-│ ├── requirements.txt
-│ └── models/
-│   └── *.pkl
+│   ├── app.py
+│   ├── requirements.txt
+│   └── models/
+│       └── *.pkl
 │
 ├── frontend/
-│ ├── index.html
-│ ├── dashboard.html
-│ ├── hotspots.html
-│ ├── prediction.html
-│ ├── risk.html
-│ └── css/
-│   └── style.css
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── hotspots.html
+│   ├── prediction.html
+│   ├── risk.html
+│   └── css/
+│       └── style.css
 │
 ├── .gitignore
 └── README.md
-'''
+
 ---
 
 
