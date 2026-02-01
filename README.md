@@ -104,26 +104,26 @@ CRIME/
 
 ## 🔌 Backend API Endpoints
 
-POST /api/poisson
+`POST /api/poisson`
 ### ▶️ Poisson Crime Forecast
 **Input:** Community Area, Hour, Day, Month, Year  
 **Output:** Expected crime count
 
 ---
-POST /api/crime-type
+`POST /api/crime-type`
 ### ▶️ Crime Type Prediction
 **Input:** Location & time details  
 **Output:** Predicted crime type
 
 ---
-POST /api/risk
+`POST /api/risk`
 ### ▶️ Risk Level Prediction
 **Input:** Community area & district  
 **Output:** LOW / MEDIUM / HIGH risk
 
 ---
-GET /api/hotspots/kde
-GET /api/hotspots/zones
+`GET /api/hotspots/kde`
+`GET /api/hotspots/zones`
 ### ▶️ Hotspot Data
 **Output:** Crime density & hotspot zones for visualization
 
