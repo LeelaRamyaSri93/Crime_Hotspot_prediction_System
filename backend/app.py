@@ -5,7 +5,8 @@ import os
 import pandas as pd  # add this import at top
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 CRIME_COMMUNITY_CENTROIDS = {
     25: (41.8917, -87.6543),
     61: (41.7698, -87.6136),
@@ -88,8 +89,10 @@ def crime_type_predict():
 risk_model = joblib.load(
     os.path.join(BASE_DIR, "models", "crime_risk_rf_model.pkl")
 )
-@app.route("/api/risk", methods=["POST"])
+@app.route("/api/risk", methods=["POST","OPTIONS"])
 def risk_level_predict():
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
     data = request.json
 
     area = data["community_area"]
